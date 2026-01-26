@@ -66,15 +66,18 @@ const Home: React.FC = () => {
   ];
 
   return (
-    <div className="relative -mx-4 -my-8 min-h-screen">
+    <div className="relative min-h-screen">
       {/* Background Image */}
       <div 
-        className="fixed inset-0 bg-cover bg-center bg-no-repeat opacity-30 pointer-events-none"
-        style={{ backgroundImage: "url('/images/casino-bg.png')" }}
+        className="fixed inset-0 bg-cover bg-center bg-no-repeat opacity-40 pointer-events-none z-0"
+        style={{ 
+          backgroundImage: "url('/images/casino-bg.png')",
+          backgroundAttachment: 'fixed'
+        }}
       />
       
       {/* Content Overlay */}
-      <div className="relative z-10 px-4 py-8 animate-fadeIn">
+      <div className="relative z-10 animate-fadeIn">
         {/* Hero Section */}
         <div className="text-center mb-16">
         <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">
@@ -176,7 +179,6 @@ const Home: React.FC = () => {
             Virtual currency only - no real money gambling
           </p>
         </div>
-      </div>
       </div>
     </div>
   );
