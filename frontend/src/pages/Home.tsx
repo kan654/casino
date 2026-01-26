@@ -66,20 +66,9 @@ const Home: React.FC = () => {
   ];
 
   return (
-    <div className="relative min-h-screen">
-      {/* Background Image */}
-      <div 
-        className="fixed inset-0 bg-cover bg-center bg-no-repeat opacity-40 pointer-events-none z-0"
-        style={{ 
-          backgroundImage: "url('/images/casino-bg.png')",
-          backgroundAttachment: 'fixed'
-        }}
-      />
-      
-      {/* Content Overlay */}
-      <div className="relative z-10 animate-fadeIn">
-        {/* Hero Section */}
-        <div className="text-center mb-16">
+    <div className="animate-fadeIn">
+      {/* Hero Section */}
+      <div className="text-center mb-16">
         <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">
           Welcome to <span className="text-primary-500">Casino</span>
         </h1>

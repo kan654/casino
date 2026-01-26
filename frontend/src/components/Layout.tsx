@@ -44,24 +44,33 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col relative">
+      {/* Casino Background Image */}
+      <div 
+        className="fixed inset-0 bg-cover bg-center bg-no-repeat opacity-30 pointer-events-none"
+        style={{ 
+          backgroundImage: "url('/images/casino-bg.png')",
+          zIndex: 0
+        }}
+      />
+      
       <Header />
       
       {/* Top Banner Ad */}
-      <div className="container mx-auto px-4 pt-4">
+      <div className="container mx-auto px-4 pt-4 relative z-10">
         <BannerAd position="top" height="90px" />
       </div>
       
-      <main className="flex-1 container mx-auto px-4 py-8">
+      <main className="flex-1 container mx-auto px-4 py-8 relative z-10">
         {children}
       </main>
       
       {/* Bottom Banner Ad */}
-      <div className="container mx-auto px-4 pb-4">
+      <div className="container mx-auto px-4 pb-4 relative z-10">
         <BannerAd position="bottom" height="90px" />
       </div>
       
-      <footer className="bg-dark-900 border-t border-dark-700 py-6 mt-auto">
+      <footer className="bg-dark-900 border-t border-dark-700 py-6 mt-auto relative z-10">
         <div className="container mx-auto px-4 text-center text-dark-400">
           <p className="mb-2">
             <span className="text-primary-500 font-semibold">Casino</span> - Virtual Currency Only
