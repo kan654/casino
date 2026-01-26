@@ -70,14 +70,14 @@ const Slots: React.FC = () => {
       setTimeout(() => {
         clearInterval(spinInterval);
 
-        if (response.success && response.data) {
-          setReels(response.data.reels);
-          setResult(response.data);
+        if (response.success && response.result) {
+          setReels(response.result.reels);
+          setResult(response.result);
           refreshUser();
 
-          if (response.data.isWin) {
+          if (response.result.isWin) {
             toast.success(
-              `You won ${response.data.payout} coins! (${response.data.multiplier}x)`,
+              `You won ${response.result.payout} coins! (${response.result.multiplier}x)`,
               { duration: 4000 }
             );
           } else {

@@ -68,13 +68,13 @@ const Dice: React.FC = () => {
 
       // Simulate rolling animation
       setTimeout(() => {
-        if (response.success && response.data) {
-          setResult(response.data);
+        if (response.success && response.result) {
+          setResult(response.result);
           refreshUser();
 
-          if (response.data.isWin) {
+          if (response.result.isWin) {
             toast.success(
-              `You won ${response.data.payout} coins! (${response.data.multiplier}x)`,
+              `You won ${response.result.payout} coins! (${response.result.multiplier}x)`,
               { duration: 4000 }
             );
           } else {
