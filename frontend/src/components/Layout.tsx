@@ -47,7 +47,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     <div className="min-h-screen flex flex-col relative">
       {/* Casino Background Image */}
       <div 
-        className="fixed inset-0 bg-cover bg-center bg-no-repeat opacity-30 pointer-events-none"
+        className="fixed inset-0 bg-cover bg-center bg-no-repeat opacity-50 pointer-events-none"
         style={{ 
           backgroundImage: "url('/images/casino-bg.png')",
           zIndex: 0
