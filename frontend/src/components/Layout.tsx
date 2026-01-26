@@ -45,15 +45,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Casino Background Image */}
-      <div 
-        className="fixed inset-0 bg-cover bg-center bg-no-repeat opacity-50 pointer-events-none"
-        style={{ 
-          backgroundImage: "url('/images/casino-bg.png')",
-          zIndex: -1
-        }}
-      />
-      
       <Header />
       
       {/* Top Banner Ad */}
