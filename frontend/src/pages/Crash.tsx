@@ -72,7 +72,7 @@ const Crash: React.FC = () => {
     });
 
     // Listen for game started
-    socketService.onCrashGameStarted((data) => {
+    socketService.onCrashGameStarted(() => {
       setGame((prev) =>
         prev
           ? {
@@ -213,12 +213,12 @@ const Crash: React.FC = () => {
     setLoading(true);
     try {
       const response = await gameAPI.crashCashOut();
-      if (response.success) {
+      if (response.success && response.data) {
         setCanCashout(false);
         setHasBet(false);
         refreshUser();
         toast.success(
-          `Cashed out at ${response.multiplier}x! Won ${response.payout} coins!`,
+          `Cashed out at ${response.data.multiplier}x! Won ${response.data.payout} coins!`,
           { duration: 4000 }
         );
       }

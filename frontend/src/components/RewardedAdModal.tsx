@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaTimes, FaPlay, FaCoins, FaCheckCircle } from 'react-icons/fa';
 import { adAPI } from '../services/api';
-import { AdStatus } from '../types';
 import toast from 'react-hot-toast';
 
 /**

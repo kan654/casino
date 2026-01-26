@@ -49,14 +49,14 @@ const Coinflip: React.FC = () => {
 
       // Show result after brief animation
       setTimeout(() => {
-        if (response.success) {
-          setResult(response.result);
+        if (response.success && response.data) {
+          setResult(response.data);
           setShowResult(true);
           refreshUser();
 
-          if (response.result.isWin) {
+          if (response.data.isWin) {
             toast.success(
-              `You won ${response.result.payout} coins! (${response.result.multiplier}x)`,
+              `You won ${response.data.payout} coins! (${response.data.multiplier}x)`,
               { duration: 4000 }
             );
           } else {

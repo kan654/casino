@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { gameAPI } from '../services/api';
-import { TradingConfig, AssetMarketData, Position, Timeframe } from '../types';
+import { TradingConfig, AssetMarketData, Position } from '../types';
 import toast from 'react-hot-toast';
-import { FaChartLine, FaArrowUp, FaArrowDown, FaTimes, FaClock, FaArrowLeft, FaExclamationTriangle } from 'react-icons/fa';
+import { FaChartLine, FaArrowUp, FaArrowDown, FaClock, FaArrowLeft, FaExclamationTriangle } from 'react-icons/fa';
 
 const Trading: React.FC = () => {
   const { user, refreshUser } = useAuth();

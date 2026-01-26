@@ -30,7 +30,6 @@ interface BannerAdProps {
 }
 
 const BannerAd: React.FC<BannerAdProps> = ({ 
-  position = 'bottom',
   height = '90px' 
 }) => {
   // In production, load AdSense script

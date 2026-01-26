@@ -22,7 +22,7 @@ const CardCollection: React.FC = () => {
   
   const [collection, setCollection] = useState<CardsByRarity | null>(null);
   const [stats, setStats] = useState<CollectionStats | null>(null);
-  const [rarestCards, setRarestCards] = useState<CardType[]>([]);
+  const [, setRarestCards] = useState<CardType[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCard, setSelectedCard] = useState<CardType | null>(null);
   const [filterRarity, setFilterRarity] = useState<string>('all');
