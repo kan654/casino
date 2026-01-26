@@ -66,9 +66,17 @@ const Home: React.FC = () => {
   ];
 
   return (
-    <div className="animate-fadeIn">
-      {/* Hero Section */}
-      <div className="text-center mb-16">
+    <div className="relative -mx-4 -my-8 min-h-screen">
+      {/* Background Image */}
+      <div 
+        className="fixed inset-0 bg-cover bg-center bg-no-repeat opacity-30 pointer-events-none"
+        style={{ backgroundImage: "url('/images/casino-bg.png')" }}
+      />
+      
+      {/* Content Overlay */}
+      <div className="relative z-10 px-4 py-8 animate-fadeIn">
+        {/* Hero Section */}
+        <div className="text-center mb-16">
         <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">
           Welcome to <span className="text-primary-500">Casino</span>
         </h1>
@@ -90,23 +98,23 @@ const Home: React.FC = () => {
       {/* User Stats */}
       {user && (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
-          <div className="card text-center">
+          <div className="card text-center backdrop-blur-sm bg-dark-800/95">
             <h3 className="text-dark-400 text-sm mb-2">Balance</h3>
             <p className="text-3xl font-bold text-primary-500">
               {user.balance.toFixed(2)}
             </p>
           </div>
-          <div className="card text-center">
+          <div className="card text-center backdrop-blur-sm bg-dark-800/95">
             <h3 className="text-dark-400 text-sm mb-2">Games Played</h3>
             <p className="text-3xl font-bold text-white">{user.gamesPlayed}</p>
           </div>
-          <div className="card text-center">
+          <div className="card text-center backdrop-blur-sm bg-dark-800/95">
             <h3 className="text-dark-400 text-sm mb-2">Total Wagered</h3>
             <p className="text-3xl font-bold text-white">
               {user.totalWagered.toFixed(2)}
             </p>
           </div>
-          <div className="card text-center">
+          <div className="card text-center backdrop-blur-sm bg-dark-800/95">
             <h3 className="text-dark-400 text-sm mb-2">Total Won</h3>
             <p className="text-3xl font-bold text-green-500">
               {user.totalWon.toFixed(2)}
@@ -125,7 +133,7 @@ const Home: React.FC = () => {
             <Link
               key={game.id}
               to={game.link}
-              className="card hover:scale-105 transition-transform duration-300 group"
+              className="card hover:scale-105 transition-transform duration-300 group backdrop-blur-sm bg-dark-800/95 shadow-xl"
             >
               <div
                 className={`bg-gradient-to-br ${game.color} rounded-lg p-8 mb-4 flex items-center justify-center`}
@@ -147,27 +155,28 @@ const Home: React.FC = () => {
 
       {/* Features Section */}
       <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div className="card text-center">
+        <div className="card text-center backdrop-blur-sm bg-dark-800/95 shadow-xl">
           <div className="text-4xl mb-4">🎲</div>
           <h3 className="text-xl font-bold text-white mb-2">Provably Fair</h3>
           <p className="text-dark-300">
             All games use cryptographic algorithms to ensure fairness
           </p>
         </div>
-        <div className="card text-center">
+        <div className="card text-center backdrop-blur-sm bg-dark-800/95 shadow-xl">
           <div className="text-4xl mb-4">⚡</div>
           <h3 className="text-xl font-bold text-white mb-2">Instant Play</h3>
           <p className="text-dark-300">
             No downloads required - play directly in your browser
           </p>
         </div>
-        <div className="card text-center">
+        <div className="card text-center backdrop-blur-sm bg-dark-800/95 shadow-xl">
           <div className="text-4xl mb-4">🔒</div>
           <h3 className="text-xl font-bold text-white mb-2">Safe & Secure</h3>
           <p className="text-dark-300">
             Virtual currency only - no real money gambling
           </p>
         </div>
+      </div>
       </div>
     </div>
   );
