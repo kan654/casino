@@ -2,6 +2,7 @@ const { TRADING_CONFIG } = require('../config/game.config');
 const { formatCoins } = require('../utils/gameCalculations');
 const Position = require('../models/Position.model');
 const GameHistory = require('../models/GameHistory.model');
+const { validateBet: validateBetAmount } = require('../utils/betManager');
 
 /**
  * Real Paper Trading Service
@@ -168,18 +169,8 @@ class TradingService {
     try {
       this.initializeMarket();
       
-      // Validate inputs
-      if (stake < TRADING_CONFIG.MIN_BET) {
-        throw new Error(`Minimum stake is ${TRADING_CONFIG.MIN_BET} coins`);
-      }
-      
-      if (stake > TRADING_CONFIG.MAX_BET) {
-        throw new Error(`Maximum stake is ${TRADING_CONFIG.MAX_BET} coins`);
-      }
-      
-      if (stake > user.balance) {
-        throw new Error('Insufficient balance');
-      }
+      // Validate stake using global bet manager
+      validateBetAmount(stake, user.balance);
       
       if (!TRADING_CONFIG.LEVERAGE_OPTIONS.includes(leverage)) {
         throw new Error(`Invalid leverage. Choose from: ${TRADING_CONFIG.LEVERAGE_OPTIONS.join(', ')}`);

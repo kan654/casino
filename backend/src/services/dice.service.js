@@ -2,6 +2,7 @@ const { DICE_CONFIG } = require('../config/game.config');
 const { generateProvablyFairNumber } = require('../utils/provablyFair');
 const { calculateDicePayout, isDiceWin, formatCoins, calculateProfit } = require('../utils/gameCalculations');
 const GameHistory = require('../models/GameHistory.model');
+const { validateBet: validateBetAmount } = require('../utils/betManager');
 
 /**
  * Dice Game Service
@@ -12,17 +13,8 @@ class DiceService {
    * Validate bet parameters
    */
   static validateBet(betAmount, target, userBalance) {
-    if (betAmount < DICE_CONFIG.MIN_BET) {
-      throw new Error(`Minimum bet is ${DICE_CONFIG.MIN_BET} coins`);
-    }
-    
-    if (betAmount > DICE_CONFIG.MAX_BET) {
-      throw new Error(`Maximum bet is ${DICE_CONFIG.MAX_BET} coins`);
-    }
-    
-    if (betAmount > userBalance) {
-      throw new Error('Insufficient balance');
-    }
+    // Use global bet manager for dynamic limits
+    validateBetAmount(betAmount, userBalance);
     
     if (target < DICE_CONFIG.MIN_CHANCE || target > DICE_CONFIG.MAX_CHANCE) {
       throw new Error(`Target must be between ${DICE_CONFIG.MIN_CHANCE} and ${DICE_CONFIG.MAX_CHANCE}`);

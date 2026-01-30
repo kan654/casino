@@ -173,12 +173,37 @@ if (!validation.isValid) {
 
 **BRAK** - System przeszedł linter bez błędów
 
+### Backend - Zaktualizowane Serwisy
+
+#### Nowy Moduł
+**`backend/src/utils/betManager.js`**
+- Centralna logika walidacji dla backendu
+- Te same algorytmy co frontend (min 2%, max 100%)
+- Funkcje: `calculateBetLimits()`, `validateBet()`, `clampBet()`
+
+#### Zaktualizowane Serwisy Gier (wszystkie 6)
+1. **`backend/src/services/dice.service.js`**
+2. **`backend/src/services/slots.service.js`**
+3. **`backend/src/services/coinflip.service.js`**
+4. **`backend/src/services/mines.service.js`**
+5. **`backend/src/services/trading.service.js`**
+6. **`backend/src/services/crash.service.js`**
+
+**Zmiany w każdym serwisie:**
+- Import `validateBet` z utils/betManager
+- Usunięto sprawdzanie MIN_BET/MAX_BET z config
+- Używa dynamicznej walidacji na podstawie balansu użytkownika
+
+#### Dokumentacja Backendu
+**`backend/BET_SYSTEM_BACKEND.md`** - pełna dokumentacja zmian w backendzie
+
 ## Kolejne Kroki
 
 1. ✅ Implementacja frontendowa - **GOTOWE**
-2. ⏳ Testy manualne
-3. ⏳ Opcjonalnie: Dostosowanie backendu do nowej logiki
-4. ⏳ Deploy na production
+2. ✅ Implementacja backendowa - **GOTOWE**
+3. ⏳ Restart serwera Node.js (wymagane!)
+4. ⏳ Testy manualne
+5. ⏳ Deploy na production
 
 ## Autorzy
 

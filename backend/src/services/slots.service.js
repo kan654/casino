@@ -2,6 +2,7 @@ const { SLOTS_CONFIG } = require('../config/game.config');
 const { generateSlotResult } = require('../utils/provablyFair');
 const { calculateSlotPayout, formatCoins, calculateProfit } = require('../utils/gameCalculations');
 const GameHistory = require('../models/GameHistory.model');
+const { validateBet: validateBetAmount } = require('../utils/betManager');
 
 /**
  * Slots Game Service
@@ -12,19 +13,8 @@ class SlotsService {
    * Validate bet amount
    */
   static validateBet(betAmount, userBalance) {
-    if (betAmount < SLOTS_CONFIG.MIN_BET) {
-      throw new Error(`Minimum bet is ${SLOTS_CONFIG.MIN_BET} coins`);
-    }
-    
-    if (betAmount > SLOTS_CONFIG.MAX_BET) {
-      throw new Error(`Maximum bet is ${SLOTS_CONFIG.MAX_BET} coins`);
-    }
-    
-    if (betAmount > userBalance) {
-      throw new Error('Insufficient balance');
-    }
-    
-    return true;
+    // Use global bet manager for dynamic limits
+    return validateBetAmount(betAmount, userBalance);
   }
 
   /**

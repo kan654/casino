@@ -2,6 +2,7 @@ const { MINES_CONFIG } = require('../config/game.config');
 const { generateProvablyFairNumber } = require('../utils/provablyFair');
 const { formatCoins, calculateProfit } = require('../utils/gameCalculations');
 const GameHistory = require('../models/GameHistory.model');
+const { validateBet: validateBetAmount } = require('../utils/betManager');
 
 /**
  * Mines Game Service
@@ -62,18 +63,8 @@ class MinesService {
    */
   static async startGame(user, betAmount, mineCount, clientSeed = null) {
     try {
-      // Validate inputs
-      if (betAmount < MINES_CONFIG.MIN_BET) {
-        throw new Error(`Minimum bet is ${MINES_CONFIG.MIN_BET} coins`);
-      }
-      
-      if (betAmount > MINES_CONFIG.MAX_BET) {
-        throw new Error(`Maximum bet is ${MINES_CONFIG.MAX_BET} coins`);
-      }
-      
-      if (betAmount > user.balance) {
-        throw new Error('Insufficient balance');
-      }
+      // Validate bet amount using global bet manager
+      validateBetAmount(betAmount, user.balance);
       
       if (mineCount < MINES_CONFIG.MIN_MINES || mineCount > MINES_CONFIG.MAX_MINES) {
         throw new Error(`Mine count must be between ${MINES_CONFIG.MIN_MINES} and ${MINES_CONFIG.MAX_MINES}`);

@@ -2,6 +2,7 @@ const { COINFLIP_CONFIG } = require('../config/game.config');
 const { generateProvablyFairNumber } = require('../utils/provablyFair');
 const { formatCoins, calculateProfit } = require('../utils/gameCalculations');
 const GameHistory = require('../models/GameHistory.model');
+const { validateBet: validateBetAmount } = require('../utils/betManager');
 
 /**
  * Coinflip Game Service
@@ -12,19 +13,8 @@ class CoinflipService {
    * Validate bet amount
    */
   static validateBet(betAmount, userBalance) {
-    if (betAmount < COINFLIP_CONFIG.MIN_BET) {
-      throw new Error(`Minimum bet is ${COINFLIP_CONFIG.MIN_BET} coins`);
-    }
-    
-    if (betAmount > COINFLIP_CONFIG.MAX_BET) {
-      throw new Error(`Maximum bet is ${COINFLIP_CONFIG.MAX_BET} coins`);
-    }
-    
-    if (betAmount > userBalance) {
-      throw new Error('Insufficient balance');
-    }
-    
-    return true;
+    // Use global bet manager for dynamic limits
+    return validateBetAmount(betAmount, userBalance);
   }
 
   /**

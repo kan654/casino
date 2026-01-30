@@ -5,6 +5,7 @@ const CrashGame = require('../models/CrashGame.model');
 const GameHistory = require('../models/GameHistory.model');
 const User = require('../models/User.model');
 const crypto = require('crypto');
+const { validateBet: validateBetAmount } = require('../utils/betManager');
 
 /**
  * Crash Game Service
@@ -56,18 +57,8 @@ class CrashService {
    */
   static async placeBet(user, betAmount, io) {
     try {
-      // Validate bet amount
-      if (betAmount < CRASH_CONFIG.MIN_BET) {
-        throw new Error(`Minimum bet is ${CRASH_CONFIG.MIN_BET} coins`);
-      }
-      
-      if (betAmount > CRASH_CONFIG.MAX_BET) {
-        throw new Error(`Maximum bet is ${CRASH_CONFIG.MAX_BET} coins`);
-      }
-      
-      if (betAmount > user.balance) {
-        throw new Error('Insufficient balance');
-      }
+      // Validate bet amount using global bet manager
+      validateBetAmount(betAmount, user.balance);
       
       // Check if game exists and is in waiting state
       if (!this.currentGame || this.currentGame.status !== 'waiting') {
