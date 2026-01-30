@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { gameAPI } from '../services/api';
 import { CoinflipConfig, CoinflipResult } from '../types';
 import toast from 'react-hot-toast';
+import { calculateBetLimits, validateBet, formatLimitsMessage, getSuggestedBets, clampBet } from '../utils/betManager';
 
 const Coinflip: React.FC = () => {
   const { user, refreshUser } = useAuth();
@@ -34,8 +35,9 @@ const Coinflip: React.FC = () => {
       return;
     }
 
-    if (betAmount > user.balance) {
-      toast.error('Insufficient balance');
+    const validation = validateBet(betAmount, user.balance);
+    if (!validation.isValid) {
+      toast.error(validation.message || 'Invalid bet amount');
       return;
     }
 
@@ -167,7 +169,10 @@ const Coinflip: React.FC = () => {
           </label>
           <div className="flex items-center space-x-4">
             <button
-              onClick={() => setBetAmount(Math.max((config?.minBet || 1), betAmount / 2))}
+              onClick={() => {
+                const limits = calculateBetLimits(user?.balance || 0);
+                setBetAmount(Math.max(limits.min, Math.floor(betAmount / 2)));
+              }}
               disabled={flipping}
               className="btn btn-secondary px-6"
             >
@@ -176,28 +181,37 @@ const Coinflip: React.FC = () => {
             <input
               type="number"
               value={betAmount}
-              onChange={(e) => setBetAmount(Number(e.target.value))}
+              onChange={(e) => {
+                const value = Number(e.target.value);
+                if (user) {
+                  setBetAmount(clampBet(value, user.balance));
+                }
+              }}
               disabled={flipping}
               className="input text-center flex-1 text-lg"
-              min={config?.minBet || 1}
-              max={config?.maxBet || 100}
+              min={1}
             />
             <button
-              onClick={() => setBetAmount(Math.min((config?.maxBet || 100), betAmount * 2))}
+              onClick={() => {
+                const limits = calculateBetLimits(user?.balance || 0);
+                setBetAmount(Math.min(limits.max, Math.floor(betAmount * 2)));
+              }}
               disabled={flipping}
               className="btn btn-secondary px-6"
             >
               2x
             </button>
           </div>
-          <p className="text-xs text-dark-400 mt-2">
-            Min: {config?.minBet} | Max: {config?.maxBet}
-          </p>
+          {user && (
+            <p className="text-xs text-dark-400 mt-2">
+              {formatLimitsMessage(user.balance)}
+            </p>
+          )}
         </div>
 
         {/* Quick Bet Buttons */}
         <div className="grid grid-cols-4 gap-2">
-          {[10, 25, 50, 100].map((amount) => (
+          {user && getSuggestedBets(user.balance).map((amount) => (
             <button
               key={amount}
               onClick={() => setBetAmount(amount)}

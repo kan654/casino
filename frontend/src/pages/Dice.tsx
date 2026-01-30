@@ -4,6 +4,7 @@ import { gameAPI } from '../services/api';
 import { DiceConfig, DiceResult } from '../types';
 import toast from 'react-hot-toast';
 import { FaDice, FaCoins } from 'react-icons/fa';
+import { calculateBetLimits, validateBet, formatLimitsMessage, getSuggestedBets, clampBet } from '../utils/betManager';
 
 const Dice: React.FC = () => {
   const { user, refreshUser } = useAuth();
@@ -55,8 +56,9 @@ const Dice: React.FC = () => {
       return;
     }
 
-    if (betAmount > user.balance) {
-      toast.error('Insufficient balance');
+    const validation = validateBet(betAmount, user.balance);
+    if (!validation.isValid) {
+      toast.error(validation.message || 'Invalid bet amount');
       return;
     }
 
@@ -210,37 +212,49 @@ const Dice: React.FC = () => {
             </label>
             <div className="flex items-center space-x-4">
               <button
-                onClick={() => setBetAmount(Math.max((config?.minBet || 1), betAmount - 5))}
+                onClick={() => {
+                  const limits = calculateBetLimits(user?.balance || 0);
+                  setBetAmount(Math.max(limits.min, betAmount - Math.ceil(limits.max * 0.05)));
+                }}
                 disabled={rolling}
                 className="btn btn-secondary"
               >
-                -5
+                -5%
               </button>
               <input
                 type="number"
                 value={betAmount}
-                onChange={(e) => setBetAmount(Number(e.target.value))}
+                onChange={(e) => {
+                  const value = Number(e.target.value);
+                  if (user) {
+                    setBetAmount(clampBet(value, user.balance));
+                  }
+                }}
                 disabled={rolling}
                 className="input text-center"
-                min={config?.minBet || 1}
-                max={config?.maxBet || 100}
+                min={1}
               />
               <button
-                onClick={() => setBetAmount(Math.min((config?.maxBet || 100), betAmount + 5))}
+                onClick={() => {
+                  const limits = calculateBetLimits(user?.balance || 0);
+                  setBetAmount(Math.min(limits.max, betAmount + Math.ceil(limits.max * 0.05)));
+                }}
                 disabled={rolling}
                 className="btn btn-secondary"
               >
-                +5
+                +5%
               </button>
             </div>
-            <p className="text-xs text-dark-400 mt-1">
-              Min: {config?.minBet} | Max: {config?.maxBet}
-            </p>
+            {user && (
+              <p className="text-xs text-dark-400 mt-1">
+                {formatLimitsMessage(user.balance)}
+              </p>
+            )}
           </div>
 
           {/* Quick Bet Buttons */}
           <div className="flex space-x-2">
-            {[10, 25, 50, 100].map((amount) => (
+            {user && getSuggestedBets(user.balance).map((amount) => (
               <button
                 key={amount}
                 onClick={() => setBetAmount(amount)}

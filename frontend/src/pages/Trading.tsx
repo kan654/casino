@@ -5,6 +5,7 @@ import { gameAPI } from '../services/api';
 import { TradingConfig, AssetMarketData, Position } from '../types';
 import toast from 'react-hot-toast';
 import { FaChartLine, FaArrowUp, FaArrowDown, FaClock, FaArrowLeft, FaExclamationTriangle } from 'react-icons/fa';
+import { calculateBetLimits, validateBet, formatLimitsMessage, getSuggestedBets, clampBet } from '../utils/betManager';
 
 const Trading: React.FC = () => {
   const { user, refreshUser } = useAuth();
@@ -202,13 +203,9 @@ const Trading: React.FC = () => {
       return;
     }
 
-    if (stake > user.balance) {
-      toast.error('Insufficient balance');
-      return;
-    }
-
-    if (stake < (config?.minBet || 1)) {
-      toast.error(`Minimum stake is ${config?.minBet || 1} coins`);
+    const validation = validateBet(stake, user.balance);
+    if (!validation.isValid) {
+      toast.error(validation.message || 'Invalid stake amount');
       return;
     }
 
@@ -587,14 +584,23 @@ const Trading: React.FC = () => {
               <input
                 type="number"
                 value={stake}
-                onChange={(e) => setStake(Number(e.target.value))}
+                onChange={(e) => {
+                  const value = Number(e.target.value);
+                  if (user) {
+                    setStake(clampBet(value, user.balance));
+                  }
+                }}
                 disabled={opening}
                 className="input w-full text-lg"
-                min={config?.minBet || 1}
-                max={config?.maxBet || 100}
+                min={1}
               />
+              {user && (
+                <p className="text-xs text-dark-400 mt-1">
+                  {formatLimitsMessage(user.balance)}
+                </p>
+              )}
               <div className="grid grid-cols-4 gap-2 mt-2">
-                {[10, 25, 50, 100].map(amount => (
+                {user && getSuggestedBets(user.balance).map(amount => (
                   <button
                     key={amount}
                     onClick={() => setStake(amount)}
