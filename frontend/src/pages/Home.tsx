@@ -47,6 +47,7 @@ const Home: React.FC = () => {
       color: 'from-indigo-600 to-purple-600',
       link: '/trading',
     },
+    /* HIDDEN - Crash game - Uncomment to show
     {
       id: 'crash',
       name: 'Crash',
@@ -55,6 +56,8 @@ const Home: React.FC = () => {
       color: 'from-red-600 to-orange-600',
       link: '/crash',
     },
+    */
+    /* HIDDEN - Cards game - Uncomment to show
     {
       id: 'cards',
       name: 'Card Collection',
@@ -63,6 +66,7 @@ const Home: React.FC = () => {
       color: 'from-pink-600 to-rose-600',
       link: '/cards',
     },
+    */
   ];
 
   return (

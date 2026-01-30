@@ -53,6 +53,7 @@ const Header: React.FC = () => {
               <FaChartArea className="text-xl" />
               <span>Trading</span>
             </Link>
+            {/* HIDDEN - Crash game - Uncomment to show
             <Link
               to="/crash"
               className="flex items-center space-x-2 text-dark-300 hover:text-primary-400 transition-colors"
@@ -60,6 +61,8 @@ const Header: React.FC = () => {
               <FaChartLine className="text-xl" />
               <span>Crash</span>
             </Link>
+            */}
+            {/* HIDDEN - Cards game - Uncomment to show
             <Link
               to="/cards"
               className="flex items-center space-x-2 text-dark-300 hover:text-primary-400 transition-colors"
@@ -67,6 +70,7 @@ const Header: React.FC = () => {
               <FaBook className="text-xl" />
               <span>Cards</span>
             </Link>
+            */}
           </nav>
 
           {/* User section */}
@@ -157,6 +161,7 @@ const Header: React.FC = () => {
             <FaChartArea className="text-2xl" />
             <span className="text-xs">Trading</span>
           </Link>
+          {/* HIDDEN - Crash game - Uncomment to show
           <Link
             to="/crash"
             className="flex flex-col items-center space-y-1 text-dark-300 hover:text-primary-400 transition-colors"
@@ -164,6 +169,7 @@ const Header: React.FC = () => {
             <FaChartLine className="text-2xl" />
             <span className="text-xs">Crash</span>
           </Link>
+          */}
         </nav>
       </div>
     </header>
